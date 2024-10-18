@@ -1,5 +1,4 @@
 import AboutSectionOne from "@/components/List/AboutSectionOne";
-import AboutSectionTwo from "@/components/List/AboutSectionTwo";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 
 import { Metadata } from "next";
@@ -14,11 +13,10 @@ const AboutPage = () => {
   return (
     <>
       <Breadcrumb
-        pageName="About"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius eros eget sapien consectetur ultrices. Ut quis dapibus libero."
+        pageName="List"
+        description="Create a shopping list."
       />
       <AboutSectionOne />
-      <AboutSectionTwo />
     </>
   );
 };
