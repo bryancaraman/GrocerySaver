@@ -1,95 +1,98 @@
+"use client";
+
 import SingleBlog from "@/components/Search/SingleBlog";
-import blogData from "@/components/Search/blogData";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Search",
-  description: "Search",
-  // other metadata
-};
+import React, { useState } from "react";
 
 const Blog = () => {
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [locationValue, setLocationValue] = useState<string>(""); // State for location input
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const fetchProducts = async (term: string, location: string) => {
+    if (!term.trim()) return;
+
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `/api/products?q=${encodeURIComponent(term)}&location=${encodeURIComponent(location)}`
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        setSearchResults(data.items);
+      } else {
+        console.error("Error:", data.error);
+        setSearchResults([]);
+      }
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      setSearchResults([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Breadcrumb
-        pageName="Blog Grid"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius eros eget sapien consectetur ultrices. Ut quis dapibus libero."
+        pageName="Product Search"
+        description="Search for grocery items and view the top results."
       />
 
       <section className="pb-[120px] pt-[120px]">
         <div className="container">
-          <div className="-mx-4 flex flex-wrap justify-center">
-            {blogData.map((blog) => (
-              <div
-                key={blog.id}
-                className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
-              >
-                <SingleBlog blog={blog} />
-              </div>
-            ))}
-          </div>
-
-          <div className="-mx-4 flex flex-wrap" data-wow-delay=".15s">
-            <div className="w-full px-4">
-              <ul className="flex items-center justify-center pt-8">
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    Prev
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    1
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    2
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    3
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <span className="flex h-9 min-w-[36px] cursor-not-allowed items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color">
-                    ...
-                  </span>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    12
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    Next
-                  </a>
-                </li>
-              </ul>
+          {/* Search Input */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              fetchProducts(inputValue, locationValue);
+            }}
+            className="mb-8 flex flex-col items-center space-y-4"
+          >
+            <div className="flex w-full max-w-md">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Search for products"
+                className="border border-gray-300 rounded-md p-2 w-full"
+              />
             </div>
-          </div>
+            {/* Location Input */}
+            <div className="flex w-full max-w-md">
+              <input
+                type="text"
+                value={locationValue}
+                onChange={(e) => setLocationValue(e.target.value)}
+                placeholder="Enter location (e.g., 'New York, USA')"
+                className="border border-gray-300 rounded-md p-2 w-full"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-primary text-white px-4 py-2 rounded-md"
+              disabled={loading}
+            >
+              {loading ? "Searching..." : "Search"}
+            </button>
+          </form>
+
+          {loading ? (
+            <p className="text-center">Loading...</p>
+          ) : searchResults.length > 0 ? (
+            <div className="-mx-4 flex flex-wrap justify-center">
+              {searchResults.map((product) => (
+                <div
+                  key={product.id}
+                  className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
+                >
+                  <SingleBlog product={product} />
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </section>
     </>
