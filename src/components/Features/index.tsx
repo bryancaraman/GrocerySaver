@@ -23,7 +23,7 @@ const featuresData: Feature[] = [
     ),
     title: "Grocery Searching",
     paragraph:
-      "Tuae nam ex similique incidunt expedita exerci tationem laudantium. Repellendus quisquam numquam perferendis earum sapiente non tempore? Fugit repellat ut maiores.",
+      "Find and compare grocery prices at national retailers near you.",
   },
   {
     id: 2,
@@ -38,7 +38,7 @@ const featuresData: Feature[] = [
     ),
     title: "Location-based Filtering",
     paragraph:
-      "Tuae nam ex similique incidunt expedita exerci tationem laudantium. Repellendus quisquam numquam perferendis earum sapiente non tempore? Fugit repellat ut maiores.",
+      "Precise location coverage across the entire U.S. for comparing local grocery prices",
   },
   {
     id: 3,
@@ -53,7 +53,7 @@ const featuresData: Feature[] = [
     ),
     title: "Customizable Shopping List",
     paragraph:
-      "Tuae nam ex similique incidunt expedita exerci tationem laudantium. Repellendus quisquam numquam perferendis earum sapiente non tempore? Fugit repellat ut maiores.",
+      "Create and modify shopping lists to save your items and get total price estimates instantly. Stay organized and never miss an item at checkout again!",
   },
 ];
 
@@ -100,7 +100,7 @@ const Features = () => {
         <div className="container">
           <SectionTitle
             title="Main Features"
-            paragraph="There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form."
+            paragraph=""
             center
           />
 
