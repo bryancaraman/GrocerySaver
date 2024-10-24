@@ -1,13 +1,5 @@
 import Link from "next/link";
 
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Sign Up",
-  description: "Sign Up Page",
-  // other metadata
-};
-
 const SignupPage = () => {
   return (
     <>

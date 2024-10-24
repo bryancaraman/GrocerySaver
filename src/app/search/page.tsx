@@ -1,6 +1,6 @@
 "use client";
 
-import SingleBlog from "@/components/Search/SingleBlog";
+import SingleBlog from "@/components/Search/Product";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import React, { useState } from "react";
 
