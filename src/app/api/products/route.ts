@@ -22,7 +22,6 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Make the API request
     const response = await axios.get(url, {
       params: {
         engine: 'google_shopping',
@@ -39,9 +38,7 @@ export async function GET(request: NextRequest) {
 
     let items = [];
     if (data && data.shopping_results && data.shopping_results.length > 0) {
-      // Extract items from shopping_results
       const products = data.shopping_results.map((item: any) => {
-        // Extract numerical price
         let price = 0;
         if (item.extracted_price !== undefined) {
           price = item.extracted_price;
@@ -51,14 +48,9 @@ export async function GET(request: NextRequest) {
             price = parseFloat(priceMatch[0].replace(/,/g, ''));
           }
         }
-
-        // Extract distance if available
         let distance = null;
         if (item.distance) {
           distance = parseFloat(item.distance.replace(/[^\d\.]/g, ''));
-        } else {
-          // Simulate distance between 1 and 50 miles
-          distance = Math.floor(Math.random() * 50) + 1;
         }
 
         return {
@@ -71,7 +63,7 @@ export async function GET(request: NextRequest) {
           thumbnail: item.thumbnail || '/placeholder-image.png',
           rating: item.rating !== undefined ? item.rating : null,
           reviews: item.reviews !== undefined ? item.reviews : null,
-          distance: distance, // Include distance
+          distance: distance,
         };
       });
 
