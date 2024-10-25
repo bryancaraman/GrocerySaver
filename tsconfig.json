@@ -5,6 +5,7 @@
     "paths": {
 			"@/*": ["./src/*"]
 		},
+    "types": ["jest", "@testing-library/jest-dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,

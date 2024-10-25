@@ -1,6 +1,6 @@
 "use client";
 
-import Product from "@/components/Search/Product";
+import Product from "@/components/Search";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import React, { useState } from "react";
 

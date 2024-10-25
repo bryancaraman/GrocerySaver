@@ -6,7 +6,7 @@ interface GroceryList {
   name: string;
 }
 
-const AboutSectionOne: React.FC = () => {
+const List: React.FC = () => {
   const [lists, setLists] = useState<GroceryList[]>([]);
   const [listName, setListName] = useState('');
 
@@ -64,4 +64,4 @@ const AboutSectionOne: React.FC = () => {
   );
 };
 
-export default AboutSectionOne;
+export default List;
