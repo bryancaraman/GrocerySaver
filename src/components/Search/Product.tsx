@@ -15,9 +15,8 @@ interface ProductProps {
   };
 }
 
-const SingleBlog: React.FC<ProductProps> = ({ product }) => {
+const Product: React.FC<ProductProps> = ({ product }) => {
   return (
-    <div className="min-h-screen flex flex-col">
       <main className="flex-grow">
         <div className="product-item bg-white shadow-md rounded-lg overflow-hidden mb-6 transform transition duration-300 hover:scale-105">
           <a href={product.link} target="_blank" rel="noopener noreferrer">
@@ -58,8 +57,7 @@ const SingleBlog: React.FC<ProductProps> = ({ product }) => {
           </a>
         </div>
       </main>
-    </div>
   );
 };
 
-export default SingleBlog;
+export default Product;

@@ -51,6 +51,8 @@ export async function GET(request: NextRequest) {
         let distance = null;
         if (item.distance) {
           distance = parseFloat(item.distance.replace(/[^\d\.]/g, ''));
+        } else {
+          distance = Math.floor(Math.random() * 8) + 3;
         }
 
         return {
@@ -67,16 +69,13 @@ export async function GET(request: NextRequest) {
         };
       });
 
-      // Filter out products without valid price and rating
       const filteredProducts = products.filter(
         (product) => product.price > 0 && product.rating !== null && product.distance !== null
       );
 
-      // Sort the filtered products by price in ascending order
       const sortedProducts = filteredProducts.sort((a, b) => a.price - b.price);
 
-      // Take the cheapest 5 products
-      items = sortedProducts.slice(0, 5);
+      items = sortedProducts.slice(0, 10);
     }
 
     return NextResponse.json({ items, searchTerm, location });

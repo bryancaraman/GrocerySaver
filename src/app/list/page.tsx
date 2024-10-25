@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Breadcrumb from "@/components/Common/Breadcrumb";
 
 interface ShoppingItem {
   id: number;
@@ -11,7 +12,7 @@ interface ShoppingItem {
 
 const styles = {
   pageContainer: {
-    margin: '100px auto',
+    margin: '60px auto',
     maxWidth: '600px',
     padding: '20px',
     backgroundColor: '#f9f9f9',
@@ -125,6 +126,12 @@ const ShoppingListPage: React.FC = () => {
   };
 
   return (
+    <>
+    <Breadcrumb
+        pageName="Shopping List"
+        description="Add, remove, and edit items in your shopping list."
+    />
+
     <div style={styles.pageContainer}>
       <h1 style={styles.header}>Shopping List</h1>
 
@@ -184,6 +191,7 @@ const ShoppingListPage: React.FC = () => {
         <h3>Total: ${calculateTotalPrice()}</h3>
       </div>
     </div>
+    </>
   );
 };
 

@@ -16,8 +16,14 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head />
-
-      <body className={`bg-[#FCFCFC] dark:bg-blue-800 ${inter.className}`}>
+      <body 
+      className={`bg-[#FCFCFC] dark:bg-blue-800 ${inter.className}`}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      }}
+      >
         <Providers>
           <Header />
           {children}

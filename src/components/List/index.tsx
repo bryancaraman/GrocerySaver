@@ -17,17 +17,15 @@ const AboutSectionOne: React.FC = () => {
         name: listName,
       };
       setLists([...lists, newList]);
-      setListName(''); // Clear the input field after adding a new list
+      setListName(''); 
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
       <main className="flex-grow">
         <div className="container mx-auto p-4">
           <h1 className="text-3xl font-bold mb-4">Grocery Pricer</h1>
 
-          {/* Form to create new list */}
           <div className="mb-6">
             <input
               type="text"
@@ -44,7 +42,6 @@ const AboutSectionOne: React.FC = () => {
             </button>
           </div>
 
-          {/* Display the lists */}
           <div>
             <h2 className="text-2xl mb-3">Your Lists:</h2>
             {lists.length === 0 ? (
@@ -64,7 +61,6 @@ const AboutSectionOne: React.FC = () => {
           </div>
         </div>
       </main>
-    </div>
   );
 };
 

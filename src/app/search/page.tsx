@@ -1,10 +1,10 @@
 "use client";
 
-import SingleBlog from "@/components/Search/Product";
+import Product from "@/components/Search/Product";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import React, { useState } from "react";
 
-const Blog = () => {
+const Search = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [locationValue, setLocationValue] = useState<string>(""); // State for location input
@@ -43,7 +43,7 @@ const Blog = () => {
 
       <section className="pb-[120px] pt-[120px]">
         <div className="container">
-          {/* Search Input */}
+
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -60,7 +60,7 @@ const Blog = () => {
                 className="border border-gray-300 rounded-md p-2 w-full"
               />
             </div>
-            {/* Location Input */}
+
             <div className="flex w-full max-w-md">
               <input
                 type="text"
@@ -88,7 +88,7 @@ const Blog = () => {
                   key={product.id}
                   className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
                 >
-                  <SingleBlog product={product} />
+                  <Product product={product} />
                 </div>
               ))}
             </div>
@@ -99,4 +99,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default Search;
