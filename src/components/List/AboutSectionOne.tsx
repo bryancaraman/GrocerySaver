@@ -14,52 +14,56 @@ const AboutSectionOne: React.FC = () => {
     if (listName.trim()) {
       const newList: GroceryList = {
         id: lists.length + 1,
-        name: listName
+        name: listName,
       };
       setLists([...lists, newList]);
-      setListName('');
+      setListName(''); // Clear the input field after adding a new list
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Grocery Pricer</h1>
+    <div className="min-h-screen flex flex-col">
+      <main className="flex-grow">
+        <div className="container mx-auto p-4">
+          <h1 className="text-3xl font-bold mb-4">Grocery Pricer</h1>
 
-      {/* Form to create new list */}
-      <div className="mb-6">
-        <input
-          type="text"
-          placeholder="Enter list name"
-          value={listName}
-          onChange={(e) => setListName(e.target.value)}
-          className="border p-2 rounded-md w-full mb-2"
-        />
-        <button
-          onClick={addNewList}
-          className="bg-primary text-white p-2 rounded-md"
-        >
-          Add New List
-        </button>
-      </div>
+          {/* Form to create new list */}
+          <div className="mb-6">
+            <input
+              type="text"
+              placeholder="Enter list name"
+              value={listName}
+              onChange={(e) => setListName(e.target.value)}
+              className="border p-2 rounded-md w-full mb-2"
+            />
+            <button
+              onClick={addNewList}
+              className="bg-primary text-white p-2 rounded-md"
+            >
+              Add New List
+            </button>
+          </div>
 
-      {/* Display the lists */}
-      <div>
-        <h2 className="text-2xl mb-3">Your Lists:</h2>
-        {lists.length === 0 ? (
-          <p>No lists available. Start by creating one!</p>
-        ) : (
-          <ul>
-            {lists.map((list) => (
-              <li
-                key={list.id}
-                className="border p-2 rounded-md mb-2 bg-opacity-10 bg-primary text-primary"
-              >
-                {list.name}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+          {/* Display the lists */}
+          <div>
+            <h2 className="text-2xl mb-3">Your Lists:</h2>
+            {lists.length === 0 ? (
+              <p>No lists available. Start by creating one!</p>
+            ) : (
+              <ul>
+                {lists.map((list) => (
+                  <li
+                    key={list.id}
+                    className="border p-2 rounded-md mb-2 bg-opacity-10 bg-primary text-primary"
+                  >
+                    {list.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
