@@ -3,12 +3,14 @@
 import Product from "@/components/Search";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import React, { useState } from "react";
+import {useItemContext} from './../itemlistContext';
 
 const Search = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [locationValue, setLocationValue] = useState<string>(""); // State for location input
   const [loading, setLoading] = useState<boolean>(false);
+  const {addItem} = useItemContext(); // for add item buttons
 
   const fetchProducts = async (term: string, location: string) => {
     if (!term.trim()) return;
@@ -33,7 +35,7 @@ const Search = () => {
       setLoading(false);
     }
   };
-
+  
   return (
     <>
       <Breadcrumb
@@ -89,6 +91,8 @@ const Search = () => {
                   className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
                 >
                   <Product product={product} />
+                  <button onClick={() => addItem(product.name, product.price, product.quantity)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Add Item</button>
                 </div>
               ))}
             </div>

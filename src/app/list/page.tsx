@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import React, { useState } from 'react';
+import {useItemContext} from './../itemlistContext';
 
 interface ShoppingItem {
   id: number;
@@ -85,10 +86,11 @@ const styles = {
 };
 
 const ShoppingListPage: React.FC = () => {
-  const [items, setItems] = useState<ShoppingItem[]>([]);
+  // const [items, setItems] = useState<ShoppingItem[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [price, setPrice] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(1);
+  const {items, removeItem} = useItemContext();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -110,16 +112,14 @@ const ShoppingListPage: React.FC = () => {
         price,
         quantity,
       };
-      setItems((prevItems) => [...prevItems, newItem]);
+      // setItems((prevItems) => [...prevItems, newItem]);
       setInputValue('');
       setPrice(0);
       setQuantity(1);
     }
   };
 
-  const handleRemoveItem = (id: number) => {
-    setItems((prevItems) => prevItems.filter(item => item.id !== id));
-  };
+  
 
   const calculateTotalPrice = () => {
     return items.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
@@ -168,7 +168,7 @@ const ShoppingListPage: React.FC = () => {
       <div style={styles.shoppingList}>
         {items.map((item) => (
           <div
-            key={item.id}
+            key={item.name}
             style={{
               ...styles.shoppingListItem,
               ...(styles.shoppingListItemHover ? { ':hover': styles.shoppingListItemHover } : {}),
@@ -180,7 +180,7 @@ const ShoppingListPage: React.FC = () => {
               <p>Quantity: {item.quantity}</p>
               <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
             </div>
-            <button style={styles.removeButton} onClick={() => handleRemoveItem(item.id)}>
+            <button style={styles.removeButton} onClick={() => removeItem(item.id)}>
               Remove
             </button>
           </div>
