@@ -2,7 +2,7 @@
 
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import React, { useState } from 'react';
-import {useItemContext} from './../itemlistContext';
+import {useItemContext, ItemProvider} from '../itemlistContext';
 
 interface ShoppingItem {
   id: number;
@@ -127,6 +127,7 @@ const ShoppingListPage: React.FC = () => {
 
   return (
     <>
+    <ItemProvider>
     <Breadcrumb
         pageName="Shopping List"
         description="Add, remove, and edit items in your shopping list."
@@ -191,6 +192,7 @@ const ShoppingListPage: React.FC = () => {
         <h3>Total: ${calculateTotalPrice()}</h3>
       </div>
     </div>
+    </ItemProvider>
     </>
   );
 };

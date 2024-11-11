@@ -3,7 +3,7 @@
 import Product from "@/components/Search";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import React, { useState } from "react";
-import {useItemContext} from './../itemlistContext';
+import {useItemContext, ItemProvider} from '../itemlistContext';
 
 const Search = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -38,6 +38,7 @@ const Search = () => {
   
   return (
     <>
+    <ItemProvider>
       <Breadcrumb
         pageName="Product Search"
         description="Search for grocery items and view the top results."
@@ -91,7 +92,7 @@ const Search = () => {
                   className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
                 >
                   <Product product={product} />
-                  <button onClick={() => addItem(product.name, product.price, product.quantity)}
+                  <button onClick={() => addItem(product.title, product.price, 1)}
                   className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Add Item</button>
                 </div>
               ))}
@@ -99,6 +100,7 @@ const Search = () => {
           ) : null}
         </div>
       </section>
+    </ItemProvider>
     </>
   );
 };
