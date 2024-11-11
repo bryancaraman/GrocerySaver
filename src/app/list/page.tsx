@@ -2,7 +2,6 @@
 
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import React, { useState } from 'react';
-import {useItemContext, ItemProvider} from '../itemlistContext';
 
 interface ShoppingItem {
   id: number;
@@ -86,7 +85,6 @@ const styles = {
 };
 
 const ShoppingListPage: React.FC = () => {
-  // const [items, setItems] = useState<ShoppingItem[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [price, setPrice] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(1);
@@ -112,14 +110,11 @@ const ShoppingListPage: React.FC = () => {
         price,
         quantity,
       };
-      // setItems((prevItems) => [...prevItems, newItem]);
       setInputValue('');
       setPrice(0);
       setQuantity(1);
     }
   };
-
-  
 
   const calculateTotalPrice = () => {
     return items.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);

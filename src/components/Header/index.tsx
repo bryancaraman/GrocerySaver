@@ -2,37 +2,24 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAuth } from "authProvider"; 
+import { logOut } from "auth"; 
 
 const menuData = [
-  {
-    id: 1,
-    title: "Home",
-    path: "/",
-    newTab: false,
-  },
-  {
-    id: 2,
-    title: "Search",
-    path: "/search",
-    newTab: false,
-  },
-  {
-    id: 3,
-    title: "List",
-    path: "/list",
-    newTab: false,
-  },
+  { id: 1, title: "Home", path: "/", newTab: false },
+  { id: 2, title: "Search", path: "/search", newTab: false },
+  { id: 3, title: "List", path: "/list", newTab: false },
 ];
 
 const Header = () => {
-  // Navbar toggle
+  const { currentUser } = useAuth();
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const [sticky, setSticky] = useState(false);
+
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
   };
 
-  // Sticky Navbar
-  const [sticky, setSticky] = useState(false);
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
       setSticky(true);
@@ -40,13 +27,21 @@ const Header = () => {
       setSticky(false);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar);
-  });
+    return () => {
+      window.removeEventListener("scroll", handleStickyNavbar);
+    };
+  }, []);
 
-  // Close navbar when link is clicked
   const handleLinkClick = () => {
     setNavbarOpen(false);
+  };
+
+  const handleLogout = async () => {
+    await logOut();
+    window.location.reload(); 
   };
 
   const usePathName = usePathname();
@@ -115,7 +110,7 @@ const Header = () => {
                               ? "text-primary dark:text-white"
                               : "text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
                           }`}
-                          onClick={handleLinkClick} // Close navbar when link is clicked
+                          onClick={handleLinkClick} 
                         >
                           {menuItem.title}
                         </Link>
@@ -125,20 +120,36 @@ const Header = () => {
                 </nav>
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
-                <Link
-                  href="/signin"
-                  className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
-                  onClick={handleLinkClick} // Close navbar when link is clicked
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/signup"
-                  className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
-                  onClick={handleLinkClick} // Close navbar when link is clicked
-                >
-                  Sign Up
-                </Link>
+                {currentUser ? (
+                  <>
+                    <span className="px-7 py-3 text-base font-medium text-dark dark:text-white md:block">
+                      {currentUser.displayName || currentUser.email}
+                    </span>
+                    <button
+                      onClick={handleLogout}
+                      className="ml-4 px-4 py-2 text-base font-medium text-white bg-primary rounded"
+                    >
+                      Log Out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/signin"
+                      className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
+                      onClick={handleLinkClick}
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/signup"
+                      className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
+                      onClick={handleLinkClick}
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
