@@ -88,7 +88,7 @@ const Search = () => {
                 type="text"
                 value={locationValue}
                 onChange={(e) => setLocationValue(e.target.value)}
-                placeholder="Enter location (e.g., 'New York, USA')"
+                placeholder="Enter location (e.g., 'New York')"
                 className="border border-gray-300 rounded-md p-2 w-full"
               />
             </div>
