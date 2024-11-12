@@ -7,4 +7,4 @@ A web-app allowing you to easily compare grocery prices among stores in your loc
 - Localized Area Search
 - Shopping List Customization
 
-### Available now!
+### Available now at https://grocery-saver.vercel.app!
