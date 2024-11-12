@@ -1,7 +1,7 @@
 'use client';
 
-import Breadcrumb from "@/components/Common/Breadcrumb";
 import React, { useState } from 'react';
+import Breadcrumb from "@/components/Common/Breadcrumb";
 
 interface ShoppingItem {
   id: number;
@@ -85,10 +85,10 @@ const styles = {
 };
 
 const ShoppingListPage: React.FC = () => {
+  const [items, setItems] = useState<ShoppingItem[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [price, setPrice] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(1);
-  const {items, removeItem} = useItemContext();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -110,10 +110,15 @@ const ShoppingListPage: React.FC = () => {
         price,
         quantity,
       };
+      setItems((prevItems) => [...prevItems, newItem]);
       setInputValue('');
       setPrice(0);
       setQuantity(1);
     }
+  };
+
+  const handleRemoveItem = (id: number) => {
+    setItems((prevItems) => prevItems.filter(item => item.id !== id));
   };
 
   const calculateTotalPrice = () => {
@@ -122,7 +127,6 @@ const ShoppingListPage: React.FC = () => {
 
   return (
     <>
-    <ItemProvider>
     <Breadcrumb
         pageName="Shopping List"
         description="Add, remove, and edit items in your shopping list."
@@ -164,7 +168,7 @@ const ShoppingListPage: React.FC = () => {
       <div style={styles.shoppingList}>
         {items.map((item) => (
           <div
-            key={item.name}
+            key={item.id}
             style={{
               ...styles.shoppingListItem,
               ...(styles.shoppingListItemHover ? { ':hover': styles.shoppingListItemHover } : {}),
@@ -176,7 +180,7 @@ const ShoppingListPage: React.FC = () => {
               <p>Quantity: {item.quantity}</p>
               <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
             </div>
-            <button style={styles.removeButton} onClick={() => removeItem(item.id)}>
+            <button style={styles.removeButton} onClick={() => handleRemoveItem(item.id)}>
               Remove
             </button>
           </div>
@@ -187,7 +191,6 @@ const ShoppingListPage: React.FC = () => {
         <h3>Total: ${calculateTotalPrice()}</h3>
       </div>
     </div>
-    </ItemProvider>
     </>
   );
 };
