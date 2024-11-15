@@ -64,7 +64,9 @@ const Search = () => {
     <>
       <Breadcrumb pageName="Product Search" description="Search for grocery items and view the top results." />
 
-      <section className="pb-[120px] pt-[120px]">
+      <section>
+      <h1 className="text-2xl font-bold text-center mb-6 pt-6">Search for products</h1>
+      
         <div className="container">
           <form
             onSubmit={(e) => {
@@ -78,7 +80,7 @@ const Search = () => {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Search for products"
+                placeholder="Enter product"
                 className="border border-gray-300 rounded-md p-2 w-full"
               />
             </div>
@@ -88,7 +90,7 @@ const Search = () => {
                 type="text"
                 value={locationValue}
                 onChange={(e) => setLocationValue(e.target.value)}
-                placeholder="Enter location (e.g., 'New York')"
+                placeholder="Enter location (only the city, e.g. 'Richardson')"
                 className="border border-gray-300 rounded-md p-2 w-full"
               />
             </div>
