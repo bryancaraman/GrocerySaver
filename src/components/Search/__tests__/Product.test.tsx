@@ -1,47 +1,63 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import Product from '../index';
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import Product from "../index";
 
-const mockProduct = {
-  id: '1',
-  title: 'Sample Product',
-  price: 99.99,
-  seller: 'Sample Seller',
-  link: 'https://example.com/product',
-  product_link: 'https://example.com/product-detail',
-  thumbnail: 'sample-thumbnail.jpg',
-  rating: 4.5,
-  reviews: 10,
-  distance: 5,
-};
+describe("Product Component", () => {
+  const mockProduct = {
+    id: "1",
+    title: "Sample Product",
+    price: 99.99,
+    seller: "Sample Seller",
+    link: "https://example.com",
+    thumbnail: "https://via.placeholder.com/150",
+    rating: 4.5,
+    reviews: 10,
+    distance: 5,
+  };
 
-describe('Product Component', () => {
-  test('renders product details', () => {
-    render(<Product product={mockProduct} />);
-    
-    expect(screen.getByText('Sample Product')).toBeInTheDocument();
-    expect(screen.getByText('Seller: Sample Seller')).toBeInTheDocument();
-    expect(screen.getByText('$99.99')).toBeInTheDocument();
+  const mockOnAdd = jest.fn(); 
+
+  test("renders product details correctly", () => {
+    render(<Product product={mockProduct} onAdd={mockOnAdd} />);
+
+    expect(screen.getByText("Sample Product")).toBeInTheDocument();
+    expect(screen.getByText("Seller: Sample Seller")).toBeInTheDocument();
+    expect(screen.getByText("$99.99")).toBeInTheDocument();
+    expect(screen.getByText("Rating: 4.5")).toBeInTheDocument();
+    expect(screen.getByText("Distance: 5 miles")).toBeInTheDocument();
+    expect(screen.getByAltText("Sample Product")).toHaveAttribute(
+      "src",
+      "https://via.placeholder.com/150"
+    );
   });
 
-  test('displays "Price not available" when price is missing', () => {
+  test("renders 'Price not available' if price is undefined", () => {
     const productWithoutPrice = { ...mockProduct, price: undefined };
-    render(<Product product={productWithoutPrice} />);
-    expect(screen.getByText('Price not available')).toBeInTheDocument();
+    render(<Product product={productWithoutPrice} onAdd={mockOnAdd} />);
+
+    expect(screen.getByText("Price not available")).toBeInTheDocument();
   });
 
-  test('conditionally renders rating and distance', () => {
-    render(<Product product={mockProduct} />);
-    expect(screen.getByText(`Rating: ${mockProduct.rating.toFixed(1)}`)).toBeInTheDocument();
-    expect(screen.getByText(`Distance: ${mockProduct.distance} miles`)).toBeInTheDocument();
+  test("renders 'No title available' if title is missing", () => {
+    const productWithoutTitle = { ...mockProduct, title: "" };
+    render(<Product product={productWithoutTitle} onAdd={mockOnAdd} />);
+
+    expect(screen.getByText("No title available")).toBeInTheDocument();
   });
 
-  test('renders product image with correct src and alt', () => {
-    render(<Product product={mockProduct} />);
-    const imgElement = screen.getByRole('img');
+  test("handles 'onAdd' button click", () => {
+    render(<Product product={mockProduct} onAdd={mockOnAdd} />);
 
-    expect(imgElement).toHaveAttribute('src', mockProduct.thumbnail);
-    expect(imgElement).toHaveAttribute('alt', mockProduct.title);
+    const addButton = screen.getByText("+");
+    fireEvent.click(addButton);
+
+    expect(mockOnAdd).toHaveBeenCalledTimes(1);
+  });
+
+  test("renders without distance if it is null", () => {
+    const productWithoutDistance = { ...mockProduct, distance: null };
+    render(<Product product={productWithoutDistance} onAdd={mockOnAdd} />);
+
+    expect(screen.queryByText(/Distance:/)).toBeNull();
   });
 });

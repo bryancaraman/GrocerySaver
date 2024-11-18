@@ -1,31 +1,66 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import List from '../index';
 
 describe('List Component', () => {
-  test('renders List component with title and empty message', () => {
+  test('renders the title and input field', () => {
     render(<List />);
+
     expect(screen.getByText('Grocery Pricer')).toBeInTheDocument();
-    expect(screen.getByText('Your Lists:')).toBeInTheDocument();
-    expect(screen.getByText('No lists available. Start by creating one!')).toBeInTheDocument();
+
+    expect(screen.getByPlaceholderText('Enter list name')).toBeInTheDocument();
+
+    expect(screen.getByText('Add New List')).toBeInTheDocument();
   });
 
-  test('updates input and adds a new list on button click', () => {
+  test('displays a message when no lists are available', () => {
     render(<List />);
+
+    expect(
+      screen.getByText('No lists available. Start by creating one!')
+    ).toBeInTheDocument();
+  });
+
+  test('adds a new list when input is valid and button is clicked', () => {
+    render(<List />);
+
     const input = screen.getByPlaceholderText('Enter list name');
-    const addButton = screen.getByText('Add New List');
+    const button = screen.getByText('Add New List');
 
-    fireEvent.change(input, { target: { value: 'Grocery List 1' } });
-    fireEvent.click(addButton);
-    expect(screen.getByText('Grocery List 1')).toBeInTheDocument();
-    expect(input).toHaveValue(''); 
+    fireEvent.change(input, { target: { value: 'Groceries' } });
+
+    fireEvent.click(button);
+
+    expect(screen.getByText('Groceries')).toBeInTheDocument();
+
+    expect((input as HTMLInputElement).value).toBe('');
   });
 
-  test('does not add empty list names', () => {
+  test('does not add a list when input is empty', () => {
     render(<List />);
-    const addButton = screen.getByText('Add New List');
-    fireEvent.click(addButton);
-    expect(screen.queryByText('No lists available. Start by creating one!')).toBeInTheDocument();
+
+    const button = screen.getByText('Add New List');
+
+    fireEvent.click(button);
+
+    expect(
+      screen.getByText('No lists available. Start by creating one!')
+    ).toBeInTheDocument();
+  });
+
+  test('adds multiple lists correctly', () => {
+    render(<List />);
+
+    const input = screen.getByPlaceholderText('Enter list name');
+    const button = screen.getByText('Add New List');
+
+    fireEvent.change(input, { target: { value: 'Groceries' } });
+    fireEvent.click(button);
+
+    fireEvent.change(input, { target: { value: 'Household Items' } });
+    fireEvent.click(button);
+
+    expect(screen.getByText('Groceries')).toBeInTheDocument();
+    expect(screen.getByText('Household Items')).toBeInTheDocument();
   });
 });
