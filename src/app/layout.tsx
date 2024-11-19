@@ -17,7 +17,7 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <head />
       <body 
-      className={`bg-[#FCFCFC] dark:bg-blue-800 ${inter.className}`}
+      className={`bg-[#FCFCFC] dark:bg-gray-dark ${inter.className}`}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -26,8 +26,8 @@ export default function RootLayout({
       >
         <Providers>
           <Header />
-          {children}
-          <Footer />
+          <main style={{ flex: 1 }}>{children}</main>
+          <Footer/>
         </Providers>
       </body>
     </html>

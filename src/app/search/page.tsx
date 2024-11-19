@@ -64,7 +64,7 @@ const Search = () => {
     <>
       <Breadcrumb pageName="Product Search" description="Search for grocery items and view the top results." />
 
-      <section>
+      <section className="mt-5">
       <h1 className="text-2xl font-bold text-center mb-6 pt-6">Search for products</h1>
       
         <div className="container">

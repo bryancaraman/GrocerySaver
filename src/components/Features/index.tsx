@@ -90,6 +90,9 @@ const Features = () => {
           </div>
         </div>
       </section>
+      <div className="text-center" >
+      <p className="mb-4 text-xl font-bold pb-10">Try it now by heading to the search page!</p>
+    </div>
     </>
   );
 };
